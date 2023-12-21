@@ -1,6 +1,6 @@
 export type Question = {
-	id: string;
-	questions: string;
+  id: string;
+  questions: string;
 };
 
 export type Questions = Question[];
