@@ -1,4 +1,4 @@
-import { createInterface, Interface } from 'node:readline/promises';
+import { createInterface, type Interface } from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
 
 export function createPrompt(): Interface {
