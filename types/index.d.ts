@@ -5,4 +5,6 @@ export type Question = {
 
 export type Questions = Question[];
 
-export type MealOptions = Set<string>;
+export type Meal = string;
+
+export type MealOptions = Set<Meal>;

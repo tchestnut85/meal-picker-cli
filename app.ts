@@ -1,5 +1,7 @@
-import { FIRST_MEAL_ID, NONE, QUESTIONS, WELCOME } from './constants.ts';
 import { createPrompt } from './lib/createPrompt.ts';
+import { chooseMeal } from './lib/chooseMeal.ts';
+import { printMeals } from './lib/printMeals.ts';
+import { FIRST_MEAL_ID, NONE, QUESTIONS, WELCOME } from './constants.ts';
 import type { MealOptions } from './types/index.js';
 
 function printWelcome(message: string): void {
@@ -16,6 +18,7 @@ async function askQuestions(): Promise<void> {
   try {
     let isDone = false;
     let questionIndex = 0;
+
     while (!isDone) {
       const { id, question } = QUESTIONS[questionIndex > 2 ? 2 : questionIndex];
       const isFirstMeal = id === FIRST_MEAL_ID;
@@ -23,7 +26,7 @@ async function askQuestions(): Promise<void> {
 
       const answer = await prompt.question(formattedQuestion);
 
-      if (answer === NONE) {
+      if (answer.toLowerCase() === NONE) {
         isDone = true;
       } else {
         mealOptions.add(answer);
@@ -37,9 +40,15 @@ async function askQuestions(): Promise<void> {
     }
   }
 
-  console.log('\nmealOptions:', mealOptions);
+  const chosenMeal = chooseMeal(mealOptions);
+
+  printMeals(mealOptions, chosenMeal);
+
+  prompt.close();
 }
 
-askQuestions().catch((err) => {
+try {
+  await askQuestions();
+} catch (err) {
   console.error(err);
-});
+}
